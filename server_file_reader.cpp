@@ -4,7 +4,6 @@
 
 #include "server_file_reader.h"
 #include <string>
-#include <stdexcept>
 
 FileReader::FileReader(const std::string &file_name) {
     this->fs.open(file_name);
@@ -17,7 +16,7 @@ uint16_t FileReader::readNextNumber(){
     std::string s_number;
 
     if (fs.eof()){
-        fs.seekg(0);
+        //fs.seekg(0);
     }
     getline(this->fs, s_number);
 

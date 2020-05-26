@@ -26,7 +26,6 @@ public:
     void operator()();
 
 private:
-
     /*Envia por el socket los comandos segun la entrada
      * estandar que sea valida*/
     void write();

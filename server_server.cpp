@@ -28,7 +28,7 @@ void Server::operator()() {
     //cierro el acceptClients asi falla el accept del socket
     acep_socket.shutdown(SHUT_RDWR);
     for (auto & client: clients){
-        //client.stop()
+        //client.stop();
         client.join();
     }
     this->showResults();
