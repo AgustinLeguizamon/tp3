@@ -34,7 +34,7 @@ public:
 
     void showResults();
 
-    void aceptador();
+    void acceptClients();
 };
 
 

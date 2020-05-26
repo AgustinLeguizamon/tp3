@@ -36,12 +36,11 @@ void Client::write() {
             const char *p_input = input.c_str();
             char *p_input_end;
             const long number = std::strtol(p_input, &p_input_end, 10);
-            const bool range_error = errno == ERANGE;
-
+            
             //chequeo si es mas de un parametro buscando un espacio
             if ((input.find(' ', 0)) != std::string::npos) {
                 std::cout << "Error: argumentos invalidos." << std::endl;
-            } else if (range_error || number > USHRT_MAX || number <= 0) {
+            } else if (number > USHRT_MAX || number <= 0) {
                 //debe ser un numero valido, representable en 2 bytes y positivo
                 std::cout << "Error: comando inválido. "
                              "Escriba AYUDA para obtener ayuda" << std::endl;

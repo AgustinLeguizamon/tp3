@@ -8,6 +8,14 @@
 #include <fstream>
 #include <string>
 
+class FileNotFoundError : public std::exception {
+public:
+    const char* what() const noexcept override {
+        return "File name is incorrect";
+    }
+};
+
+
 class FileReader {
 private:
     std::ifstream fs;

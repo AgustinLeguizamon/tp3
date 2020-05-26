@@ -8,6 +8,7 @@
 
 //para el reserve del vector clients, si no el programa falla
 #define MAX_CLIENTS 4
+#define CLOSE_SERVER 'q'
 
 Server::Server(FileReader &file_reader, const char* service) :
     file_reader(file_reader),
@@ -17,14 +18,14 @@ Server::Server(FileReader &file_reader, const char* service) :
 }
 
 void Server::operator()() {
-    std::thread acep_th(&Server::aceptador, this);
+    std::thread acep_th(&Server::acceptClients, this);
 
     char c = std::cin.get();
-    while (c != 'q'){
+    while (c != CLOSE_SERVER){
         c = std::cin.get();
     }
     keep_running = false;
-    //cierro el aceptador asi falla el acept
+    //cierro el acceptClients asi falla el accept del socket
     acep_socket.shutdown(SHUT_RDWR);
     for (auto & client: clients){
         //client.stop()
@@ -44,7 +45,7 @@ void Server::showResults() {
                 "Perdedores:" << counter.getLosers() << "\n";
 }
 
-void Server::aceptador() {
+void Server::acceptClients() {
     while (keep_running){
         try {
             Socket server_socket = acep_socket.accept();
@@ -59,6 +60,7 @@ void Server::aceptador() {
                 }
             }
         } catch(ClosedSocketException &e) {
+            //ocurre si ya cerre el socket aceptador
         }
     }
 }

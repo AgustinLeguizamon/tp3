@@ -10,7 +10,7 @@
 #define BACKLOG 10; //cantidad maxima de solicitudes en espera
 
 Socket::Socket() :
-        sfd(-1)
+    sfd(-1)
     {}
 
 Socket::Socket(int file_descriptor) :
@@ -47,7 +47,6 @@ int Socket::bindAndListen(const char* service) {
 
         if (bind(socket_file_descriptor, rp->ai_addr, rp->ai_addrlen) == 0){
             success = true;
-
             int backlog = BACKLOG;
             listen(socket_file_descriptor, backlog);
             this->sfd = socket_file_descriptor;
@@ -56,9 +55,12 @@ int Socket::bindAndListen(const char* service) {
             ::close(socket_file_descriptor);
         }
     }
-
     freeaddrinfo(result);
-
+/*
+    if(!success){
+        throw OSError("El socket no pudo bindearse al puerto %s", service);
+    }
+*/
     return 0;
 }
 
@@ -109,7 +111,11 @@ int Socket::connect(const char *host_name, const char *service) {
     }
 
     freeaddrinfo(result);
-
+/*
+    if(!success){
+        throw OSError("El socket no pudo conectarse al host %s, puerto %s", host_name, service);
+    }
+*/
     return 0;
 }
 

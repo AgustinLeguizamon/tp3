@@ -19,11 +19,7 @@ public:
 
     ProtectedCounter(const ProtectedCounter&) = delete;
 
-    void increaseWinners();
-
     void increase(bool is_winner);
-    
-    void increaseLosers();
 
     unsigned int getWinners();
     

@@ -4,11 +4,12 @@
 
 #include "server_file_reader.h"
 #include <string>
+#include <stdexcept>
 
 FileReader::FileReader(const std::string &file_name) {
     this->fs.open(file_name);
     if (!fs.is_open()){
-        //throw
+        throw FileNotFoundError();
     }
 }
 

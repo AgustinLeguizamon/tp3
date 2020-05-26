@@ -16,21 +16,30 @@ private:
     int socket_state;
     
 public:
+    /*Constructor
+     * Se conecta al puerto @param service */
     Client(const char* host_name, const char* service);
 
     Client(const Client &other) = delete;
 
+    /*Envia por el socket los comandos segun la entrada
+     * estandar que sea valida*/
     void write();
 
+    /*Ejecuta el metodo write mientras el socket no este cerrado*/
     void operator()();
 
 private:
+    /*Enviar por el socket @param guest*/
     void sendGuestNumber(uint16_t guest);
 
+    /*Convierte en formato big_endian al @param value */
     uint32_t valueToBigEndian(uint32_t value) const;
 
+    /*Envia por el socket @param command*/
     void sendCommand(const char *command);
 
+    /*Recibe por el socket el largo del string y un string*/
     void recieveResponse();
 };
 
