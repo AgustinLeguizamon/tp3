@@ -84,7 +84,12 @@ void Client::recieveResponse(){
     std::string response(size,0);
     char* p_response = (char*) response.c_str();
     socket_state = this->client_socket.recieve(p_response, size);
-
+    //
+    std::string s_response(p_response);
+    if (s_response == "Ganaste" || s_response == "Perdiste"){
+        socket_state = 0;
+    }
+    //
     printf("%s \n", p_response);
 }
 
