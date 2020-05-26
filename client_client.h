@@ -22,14 +22,15 @@ public:
 
     Client(const Client &other) = delete;
 
-    /*Envia por el socket los comandos segun la entrada
-     * estandar que sea valida*/
-    void write();
-
     /*Ejecuta el metodo write mientras el socket no este cerrado*/
     void operator()();
 
 private:
+
+    /*Envia por el socket los comandos segun la entrada
+     * estandar que sea valida*/
+    void write();
+
     /*Enviar por el socket @param guest*/
     void sendGuestNumber(uint16_t guest);
 

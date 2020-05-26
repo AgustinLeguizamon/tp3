@@ -28,9 +28,10 @@ public:
 
     Server(const Server &other) = delete;
 
-    uint16_t readNextNumber();
-
     void operator()();
+
+private:
+    uint16_t readNextNumber();
 
     void showResults();
 
