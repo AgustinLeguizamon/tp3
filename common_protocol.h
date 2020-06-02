@@ -22,13 +22,17 @@ public:
     uint16_t recieve(Socket &socket, int overload);
 
 private:
+    /*client side*/
     uint16_t valueToBigEndian(uint16_t value) const;
 
-    uint32_t valueToBigEndian(uint32_t value) const;
-
+    /*client side*/
     uint32_t valueToLocalEndian(uint32_t value) const;
 
+    /*server side*/
     uint16_t valueToLocalEndian(uint16_t value) const;
+
+    /*server side*/
+    uint32_t valueToBigEndian(uint32_t value) const;
 };
 
 

@@ -19,7 +19,7 @@ class Server {
 private:
     FileReader &file_reader;
     Socket acep_socket;
-    std::vector<ThClient> clients;
+    std::vector<ThClient*> clients;
     ProtectedCounter counter;
     std::atomic <bool> keep_running;
     

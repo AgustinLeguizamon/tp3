@@ -28,8 +28,8 @@ void Server::operator()() {
     //cierro el acceptClients asi falla el accept del socket
     acep_socket.shutdown(SHUT_RDWR);
     for (auto & client: clients){
-        //client.stop();
-        client.join();
+        client->join();
+        delete(client);
     }
     this->showResults();
 
@@ -51,12 +51,15 @@ void Server::acceptClients() {
             Socket server_socket = acep_socket.accept();
             uint16_t guest_number = this->readNextNumber();
             clients.reserve(MAX_CLIENTS);
-            clients.emplace_back(std::move(server_socket),
-                    guest_number, counter);
-            clients.back().start();
+            clients.push_back(new ThClient(std::move(server_socket),
+                    guest_number, counter));
+            /*clients.emplace_back(std::move(server_socket),
+                    guest_number, counter);*/
+            clients.back()->start();
             for (auto & client: clients){
-                if (!client.isRunning()){
-                    client.join();
+                if (!client->isRunning()){
+                    client->join();
+                    delete (client);
                 }
             }
         } catch(ClosedSocketException &e) {
