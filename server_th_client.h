@@ -40,6 +40,8 @@ public:
 
     bool isRunning();
 
+    ~ThClient() override;
+    
 private:
     void recieve();
 

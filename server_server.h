@@ -21,7 +21,7 @@ private:
     Socket acep_socket;
     std::vector<ThClient> clients;
     ProtectedCounter counter;
-    bool keep_running;
+    std::atomic <bool> keep_running;
     
 public:
     explicit Server(FileReader &file_reader, const char* service);

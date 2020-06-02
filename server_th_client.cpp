@@ -46,11 +46,11 @@ void ThClient::run() {
 
     peer.shutdown(SHUT_RDWR);
     peer.close();
-    is_running = false;
 }
 
 //polite, no destruye el socket
 //el stop lo llama el hilo principal (el del server)
+//TODO: deletear keep_taling, no se usa
 void ThClient::stop() {
     keep_talking = false;
 }
@@ -169,6 +169,10 @@ uint16_t ThClient::proxyToLocalEndian(const uint16_t number) const{
 uint32_t ThClient::proxyBigEndian(const uint32_t value) const{
     uint32_t big_end = htonl(value);
     return big_end;
+}
+
+ThClient::~ThClient() {
+    is_running = false;
 }
 
 

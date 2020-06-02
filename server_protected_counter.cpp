@@ -20,10 +20,12 @@ void ProtectedCounter::increase(bool is_winner) {
 }
 
 unsigned int ProtectedCounter::getWinners() {
+    std::unique_lock<std::mutex> lock(mutex);
     return winners;
 }
 
 unsigned int ProtectedCounter::getLosers() {
+    std::unique_lock<std::mutex> lock(mutex);
     return losers;
 }
 
