@@ -10,12 +10,15 @@
 #include <string>
 #include "server_server.h"
 #include "common_socket.h"
+#include "common_protocol.h"
+#include "common_command_factory.h"
 
 class Client {
 private:
     Socket client_socket;
-    int socket_state;
-    
+    Protocol protocol;
+    CommandFactory cmdFactory;
+
 public:
     /*Constructor
      * Se conecta al puerto @param service */
@@ -32,16 +35,26 @@ private:
     int process(std::string &input);
 
     /*Enviar por el socket @param guest*/
+    //delete
     int sendGuestNumber(uint16_t guest);
 
     /*Convierte en formato big_endian al @param value */
+    //delete
     uint32_t valueToBigEndian(uint32_t value) const;
 
     /*Envia por el socket @param command*/
+    //delete
     int sendCommand(const char *command);
 
     /*Recibe por el socket el largo del string y un string*/
+    //delete
     int recieveResponse();
+    //delete
+    uint16_t isValid(std::string &input);
+    //delete
+    uint16_t proxyBigEndian(uint16_t value) const;
+    //delete
+    uint32_t proxyToLocalEndian(uint32_t size) const;
 };
 
 

@@ -52,6 +52,10 @@ private:
     std::string tryToGuestValidNumber(uint16_t guest);
 
     uint32_t valueToBigEndian(uint32_t value) const;
+
+    uint16_t proxyToLocalEndian(const uint16_t number) const;
+
+    uint32_t proxyBigEndian(const uint32_t value) const;
 };
 
 

@@ -83,6 +83,8 @@ void ThClient::recieve() {
 std::string ThClient::recieveGuestNumber() {
     uint16_t guest;
     peer.recieve(&guest, sizeof(uint16_t));
+    //paso a endianess local
+    guest = proxyToLocalEndian(guest);
     std::string response = this->tryToGuest(guest);
 
     return response;
@@ -90,7 +92,7 @@ std::string ThClient::recieveGuestNumber() {
 
 void ThClient::sendResponse(const std::string& response) const {
     uint32_t size = response.size();
-    uint32_t big_endian_size = valueToBigEndian(size);
+    uint32_t big_endian_size = proxyBigEndian(size);
     peer.send(&big_endian_size, sizeof(uint32_t));
     char* p_response = (char*) response.c_str();
     peer.send(p_response, response.size());
@@ -155,6 +157,17 @@ uint32_t ThClient::valueToBigEndian(const uint32_t value) const{
     uint32_t little_end = ntohl(value); //pasa a little endian
     uint32_t big_end = bswap_32(little_end); //pasa a big endian
 
+    return big_end;
+}
+
+uint16_t ThClient::proxyToLocalEndian(const uint16_t number) const{
+    uint16_t local_end = ntohs(number);
+    return local_end;
+}
+
+
+uint32_t ThClient::proxyBigEndian(const uint32_t value) const{
+    uint32_t big_end = htonl(value);
     return big_end;
 }
 
