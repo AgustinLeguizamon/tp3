@@ -16,6 +16,11 @@ public:
 
     std::string recieve(Socket &socket);
 
+    //server side
+    int send(Socket &socket, const std::string &msg);
+
+    uint16_t recieve(Socket &socket, int overload);
+
 private:
     uint16_t valueToBigEndian(uint16_t value) const;
 

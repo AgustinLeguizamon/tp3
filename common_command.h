@@ -11,7 +11,7 @@ class Command {
 public:
     virtual void operator()(Protocol &protocol,Socket &socket) = 0;
     virtual void free() = 0;
-    virtual ~Command();
+    virtual ~Command() = default;
 };
 
 class Surrender: public Command{

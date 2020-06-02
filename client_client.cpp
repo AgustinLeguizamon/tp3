@@ -21,7 +21,6 @@ Client::Client(const char* host_name, const char* service) :
 
 int Client::process(std::string &input) {
     int still_playing = 1;
-    // issue #3
     Command *cmd = this->cmdFactory.get(input);
     if (cmd){
         (*cmd) (this->protocol, this->client_socket);
@@ -31,10 +30,10 @@ int Client::process(std::string &input) {
             still_playing = 0;
         }
         cmd->free();
+        cmd = nullptr;
     }
     return still_playing;
 }
-
 
 void Client::operator()() {
     std::string input;

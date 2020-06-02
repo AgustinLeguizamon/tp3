@@ -11,12 +11,10 @@
 
 class Menssenger {
 private:
-    int functor;
+    int functor; //delete
 public:
     Menssenger();
-
-    void send(uint16_t number) const;
-
+    
     std::string sendResponse(unsigned int good, unsigned int regular,
             unsigned int bad) const;
 

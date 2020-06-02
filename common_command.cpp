@@ -24,7 +24,7 @@ void Help::free() {
 }
 
 void Number::operator()(Protocol &protocol, Socket &socket) {
-    protocol.send(socket,NUMBER_COMMAND);
+    protocol.send(socket, NUMBER_COMMAND);
     protocol.send(socket, number);
 }
 
@@ -34,5 +34,3 @@ void Number::free() {
     delete this;
 }
 
-//si defino por default, aparecen muchos errores de valgrind
-Command::~Command() {}

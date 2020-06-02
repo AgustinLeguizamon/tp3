@@ -8,10 +8,6 @@
 
 #define MAX_NUMBERS 3
 
-void Menssenger::send(const uint16_t number) const {
-    std::cout << "number to guest: " << number << std::endl;
-}
-
 std::string Menssenger::sendResponse(unsigned int good,
         unsigned int regular, unsigned int bad) const {
     std::string response;

@@ -2,8 +2,8 @@
 // Created by agustin on 24/5/20.
 //
 
-#include <byteswap.h>
 #include "server_th_client.h"
+#include "common_command.h"
 #include <string>
 
 #define HELP_COMMAND 'h'
@@ -16,8 +16,8 @@
 
 ThClient::ThClient(Socket&& server_socket, uint16_t number,
         ProtectedCounter &counter) :
-    keep_talking(true),
     is_running(true),
+    protocol(),
     counter(counter),
     peer(std::move(server_socket)),
     number_to_guest(number),
@@ -28,8 +28,8 @@ ThClient::ThClient(Socket&& server_socket, uint16_t number,
 
 //live object
 ThClient::ThClient(ThClient &&other) noexcept :
-    keep_talking(true),
     is_running(true),
+    protocol(),
     counter(other.counter),
     peer(std::move(other.peer)),
     number_to_guest(other.number_to_guest),
@@ -43,16 +43,8 @@ void ThClient::run() {
         this->recieve();
     }
     counter.increase(client_win);
-
     peer.shutdown(SHUT_RDWR);
     peer.close();
-}
-
-//polite, no destruye el socket
-//el stop lo llama el hilo principal (el del server)
-//TODO: deletear keep_taling, no se usa
-void ThClient::stop() {
-    keep_talking = false;
 }
 
 bool ThClient::isRunning(){
@@ -60,44 +52,29 @@ bool ThClient::isRunning(){
 }
 
 void ThClient::recieve() {
-    std::string command(sizeof(char), 0);
-    char* p_command = (char*) command.c_str();
-    peer.recieve(p_command, sizeof(char));
-
+    char c_cmd;
+    peer.recieve(&c_cmd, sizeof(char));
+    //Command *cmd = this->cmdFactory.get(c_cmd);
     std::string response;
-    if (*p_command == HELP_COMMAND){
+    if (c_cmd == HELP_COMMAND){
+        //command help (server)
         response = menssenger.sendHelp();
-    } else if (*p_command == SURRENDER_COMMAND){
+    } else if (c_cmd == SURRENDER_COMMAND){
+        //command surrender
         client_attempts_left = 0;
-    } else if (*p_command == NUMBER_COMMAND){
-        response = this->recieveGuestNumber();
+    } else if (c_cmd == NUMBER_COMMAND){
+        //command number
+        uint16_t guest = protocol.recieve(this->peer,0);
+        response = this->tryToGuest(guest);
     }
-
     if (client_attempts_left == 0){
         response = menssenger.sendYouLose();
     }
-    this->sendResponse(response);
+    protocol.send(this->peer, response);
 }
 
-
-std::string ThClient::recieveGuestNumber() {
-    uint16_t guest;
-    peer.recieve(&guest, sizeof(uint16_t));
-    //paso a endianess local
-    guest = proxyToLocalEndian(guest);
-    std::string response = this->tryToGuest(guest);
-
-    return response;
-}
-
-void ThClient::sendResponse(const std::string& response) const {
-    uint32_t size = response.size();
-    uint32_t big_endian_size = proxyBigEndian(size);
-    peer.send(&big_endian_size, sizeof(uint32_t));
-    char* p_response = (char*) response.c_str();
-    peer.send(p_response, response.size());
-}
-
+/**HAcer una clase Game o resolverlo dentro del Command
+ * Number con command factory*/
 std::string ThClient::tryToGuest(uint16_t guest) {
     std::string response;
 
@@ -150,25 +127,6 @@ std::string ThClient::tryToGuestValidNumber(uint16_t guest) {
     }
 
     return response;
-}
-
-/**TODO hacer una clase common_translator*/
-uint32_t ThClient::valueToBigEndian(const uint32_t value) const{
-    uint32_t little_end = ntohl(value); //pasa a little endian
-    uint32_t big_end = bswap_32(little_end); //pasa a big endian
-
-    return big_end;
-}
-
-uint16_t ThClient::proxyToLocalEndian(const uint16_t number) const{
-    uint16_t local_end = ntohs(number);
-    return local_end;
-}
-
-
-uint32_t ThClient::proxyBigEndian(const uint32_t value) const{
-    uint32_t big_end = htonl(value);
-    return big_end;
 }
 
 ThClient::~ThClient() {

@@ -12,17 +12,20 @@
 #include "server_thread.h"
 #include "server_menssenger.h"
 #include "server_protected_counter.h"
+#include "common_protocol.h"
+#include "common_command_factory.h"
 
 class ThClient : public Thread {
 private:
-    std::atomic<bool> keep_talking;
     std::atomic<bool> is_running;
     Menssenger menssenger;
+    Protocol protocol;
     ProtectedCounter &counter;
     Socket peer;
     uint16_t number_to_guest;
     unsigned int client_attempts_left;
     std::atomic<bool> client_win;
+    CommandFactory cmdFactory;
 
 public:
     explicit ThClient(Socket&& server_socket, uint16_t number,
@@ -31,33 +34,21 @@ public:
     ThClient(const ThClient&) = delete;
 
     //este constructor por movimiento es solo
-    // para poder usar el emplace_back/push_back
+    //para poder usar el emplace_back/push_back
     ThClient(ThClient&& other) noexcept;
-
-    void stop();
 
     void run() override;
 
     bool isRunning();
 
     ~ThClient() override;
-    
+
 private:
     void recieve();
-
-    std::string recieveGuestNumber();
-
-    void sendResponse(const std::string &response) const;
 
     std::string tryToGuest(uint16_t guest);
 
     std::string tryToGuestValidNumber(uint16_t guest);
-
-    uint32_t valueToBigEndian(uint32_t value) const;
-
-    uint16_t proxyToLocalEndian(const uint16_t number) const;
-
-    uint32_t proxyBigEndian(const uint32_t value) const;
 };
 
 

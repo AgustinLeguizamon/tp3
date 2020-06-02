@@ -28,6 +28,13 @@ std::string Protocol::recieve(Socket &socket){
     return s_response;
 }
 
+uint16_t Protocol::recieve(Socket &socket, int overload){
+    uint16_t number;
+    socket.recieve(&number, sizeof(uint16_t));
+    number = valueToLocalEndian(number);
+    return number;
+}
+
 uint16_t Protocol::valueToBigEndian(const uint16_t value) const{
     uint16_t big_end = htons(value);
     return big_end;
@@ -35,7 +42,7 @@ uint16_t Protocol::valueToBigEndian(const uint16_t value) const{
 
 //server side
 uint32_t Protocol::valueToBigEndian(const uint32_t value) const{
-    uint32_t big_end = htons(value);
+    uint32_t big_end = htonl(value);
     return big_end;
 }
 
@@ -46,7 +53,18 @@ uint32_t Protocol::valueToLocalEndian(const uint32_t value) const{
 
 //server side
 uint16_t Protocol::valueToLocalEndian(const uint16_t value) const{
-    uint16_t local_end = ntohl(value);
+    uint16_t local_end = ntohs(value);
     return local_end;
 }
+
+//server side
+int Protocol::send(Socket &socket, const std::string &msg) {
+    uint32_t size = msg.size();
+    uint32_t big_endian_size = valueToBigEndian(size);
+    socket.send(&big_endian_size, sizeof(uint32_t));
+    char* p_response = (char*) msg.c_str();
+    socket.send(p_response, msg.size());
+    return 0;
+}
+
 
