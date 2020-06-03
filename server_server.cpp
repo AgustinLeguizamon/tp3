@@ -50,7 +50,7 @@ void Server::acceptClients() {
         try {
             Socket server_socket = acep_socket.accept();
             uint16_t guest_number = this->readNextNumber();
-            clients.reserve(MAX_CLIENTS);
+            clients.reserve(clients.size() + 1);
             clients.push_back(new ThClient(std::move(server_socket),
                     guest_number, counter));
             /*clients.emplace_back(std::move(server_socket),
