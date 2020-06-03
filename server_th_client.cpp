@@ -4,6 +4,7 @@
 
 #include "server_th_client.h"
 #include <string>
+#include <utility>
 
 #define HELP_COMMAND 'h'
 #define SURRENDER_COMMAND 's'

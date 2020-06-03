@@ -7,10 +7,10 @@ int main(int argc, char const *argv[]) {
         client();
     } catch(std::exception &e){
         printf("%s", e.what());
-        return 1;
+        return 0;
     } catch(...){
         printf("Unknow error!");
-        return 1;
+        return 0;
     }
     return 0;
 }

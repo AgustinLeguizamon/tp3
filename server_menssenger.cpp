@@ -26,11 +26,16 @@ std::string Menssenger::sendResponse(unsigned int good,
     if (regular > 0){
         s_regular = std::to_string(regular) + " regular" + separator;
     }
-    if (bad > 0){
+    /*
+    if (bad == 3){
         s_bad = std::to_string(bad) + " mal" + separator;
     }
+    */
+    response = s_good + s_regular;
 
-    response = s_good + s_regular + s_bad;
+    if (bad == MAX_NUMBERS){
+        response = std::to_string(bad) + " mal";
+    }
 
     size_t pos = response.find_last_of(',');
     if (pos != std::string::npos){

@@ -3,11 +3,10 @@
 //
 
 #include <iostream>
+#include <utility>
 #include "server_server.h"
 #include "server_th_client.h"
 
-//para el reserve del vector clients, si no el programa falla
-#define MAX_CLIENTS 4
 #define CLOSE_SERVER 'q'
 
 Server::Server(FileReader &file_reader, const char* service) :
@@ -41,8 +40,9 @@ uint16_t Server::readNextNumber() {
 }
 
 void Server::showResults() {
-    std::cout << "Estadísticas:\n\tGanadores:" << counter.getWinners() << "\n\t"
-                "Perdedores:" << counter.getLosers() << "\n";
+    std::cout << "Estadísticas:\n\tGanadores:  "
+                << counter.getWinners() << "\n\t"
+                "Perdedores: " << counter.getLosers() << "\n";
 }
 
 void Server::acceptClients() {
