@@ -26,11 +26,7 @@ std::string Menssenger::sendResponse(unsigned int good,
     if (regular > 0){
         s_regular = std::to_string(regular) + " regular" + separator;
     }
-    /*
-    if (bad == 3){
-        s_bad = std::to_string(bad) + " mal" + separator;
-    }
-    */
+    
     response = s_good + s_regular;
 
     if (bad == MAX_NUMBERS){
