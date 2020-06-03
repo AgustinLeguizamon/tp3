@@ -35,8 +35,6 @@ void ThClient::run() {
         this->recieve();
     }
     counter.increase(game.isWinner());
-    peer.shutdown(SHUT_RDWR);
-    peer.close();
 }
 
 bool ThClient::isRunning(){

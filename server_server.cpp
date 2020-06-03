@@ -56,12 +56,20 @@ void Server::acceptClients() {
             /*clients.emplace_back(std::move(server_socket),
                     guest_number, counter);*/
             clients.back()->start();
+            for (auto it = clients.begin(); it != clients.end(); ++it){
+                if (!(*it)->isRunning()){
+                    (*it)->join();
+                    delete(*it);
+                    clients.erase(it);
+                }
+            }
+            /*
             for (auto & client: clients){
                 if (!client->isRunning()){
                     client->join();
-                    delete (client);
+                    delete(client);
                 }
-            }
+            }*/
         } catch(ClosedSocketException &e) {
             //ocurre si ya cerre el socket aceptador
         }

@@ -161,16 +161,22 @@ int Socket::recieve(void* buffer, ssize_t length) const {
 }
 
 Socket::~Socket() {
-    ::shutdown(this->sfd, SHUT_RDWR);
-    ::close(this->sfd);
+    if (sfd >= 0){
+        ::shutdown(this->sfd, SHUT_RDWR);
+        ::close(this->sfd);
+    }
 }
 
 int Socket::shutdown(int channel) {
-    ::shutdown(this->sfd, SHUT_RDWR);
+    if (sfd >= 0){
+        ::shutdown(this->sfd, SHUT_RDWR);
+    }
     return  0;
 }
 
 int Socket::close(){
-    ::close((this->sfd));
+    if (sfd>=0){
+        ::close((this->sfd));
+    }
     return 0;
 }
