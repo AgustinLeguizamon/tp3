@@ -29,7 +29,7 @@ Command *CommandFactory::get(const std::string &input) const{
             if ((input.find(' ', 0)) != std::string::npos){
                 //chequeo si es mas de un parametro buscando un espacio
                 std::cout << "Error: argumentos invalidos." << std::endl;
-            } else if (number > USHRT_MAX || number < 0) {
+            } else if (number > USHRT_MAX || number <= 0) {
                 //debe ser un numero valido, representable en 2 bytes y positivo
                 std::cout << "Error: comando inválido. "
                              "Escriba AYUDA para obtener ayuda" << std::endl;
