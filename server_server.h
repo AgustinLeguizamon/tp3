@@ -28,13 +28,20 @@ public:
 
     Server(const Server &other) = delete;
 
+    /* Levanta el servidor, acepta nuevos clientes lanzando threads 
+     * por cada uno y eliminando aquellos que dejaron de jugar
+     * espera una 'q' por la entrada estandar para cerrar el servidor*/
     void operator()();
 
 private:
+    /*Obtiene el siguiente numero para que el cliente adivine*/
     uint16_t readNextNumber();
 
+    /*Muestra la cantidad de ganadores y perdedores mientras
+     * estuvo levantado el server*/
     void showResults();
 
+    /*Thread, encargado de aceptar nuevos clientes*/
     void acceptClients();
 };
 

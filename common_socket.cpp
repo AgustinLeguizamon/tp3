@@ -7,8 +7,10 @@
 #include <unistd.h>
 #include <utility>
 #include "common_socket.h"
+#include "common_closedsocket_exception.h"
+#include "common_oserror_exception.h"
 
-#define BACKLOG 10; //cantidad maxima de solicitudes en espera
+#define BACKLOG 10;
 
 Socket::Socket() :
     sfd(-1)
@@ -46,6 +48,12 @@ int Socket::bindAndListen(const char* service) {
         int socket_file_descriptor = socket(rp->ai_family, rp->ai_socktype,
                                             rp->ai_protocol);
 
+        if (socket_file_descriptor == -1){
+            throw OSError("No pudo crearse el socket, "
+                          "file descriptor invalido, fd:%d",
+                          socket_file_descriptor);
+        }
+
         if (bind(socket_file_descriptor, rp->ai_addr, rp->ai_addrlen) == 0){
             success = true;
             int backlog = BACKLOG;
@@ -57,11 +65,9 @@ int Socket::bindAndListen(const char* service) {
         }
     }
     freeaddrinfo(result);
-/*
-    if(!success){
+    if (!success){
         throw OSError("El socket no pudo bindearse al puerto %s", service);
     }
-*/
     return 0;
 }
 
@@ -74,7 +80,6 @@ Socket Socket::accept() const {
     int file_descriptor = ::accept(acep_file_descriptor,
                                    (struct sockaddr *) &peer_addr,
                                            &peer_addr_size);
-
     if (file_descriptor == -1){
         throw ClosedSocketException();
     }
@@ -101,6 +106,12 @@ int Socket::connect(const char *host_name, const char *service) {
         int socket_file_descriptor = socket(rp->ai_family, rp->ai_socktype,
                                             rp->ai_protocol);
 
+        if (socket_file_descriptor == -1){
+            throw OSError("No pudo crearse el socket, "
+                          "file descriptor invalido, "
+                          "fd:%d", socket_file_descriptor);
+        }
+
         if (::connect(socket_file_descriptor,
                 rp->ai_addr, rp->ai_addrlen) != -1){
             success = true;
@@ -112,11 +123,10 @@ int Socket::connect(const char *host_name, const char *service) {
     }
 
     freeaddrinfo(result);
-/*
-    if(!success){
-        throw OSError("El socket no pudo conectarse al host %s, puerto %s", host_name, service);
+    if (!success){
+        throw OSError("El socket no pudo conectarse al host %s, "
+                      "puerto %s", host_name, service);
     }
-*/
     return 0;
 }
 
@@ -134,7 +144,8 @@ int Socket::send(const void *buffer, ssize_t length) const {
         return 0;
     }
     if (n_send == -1){
-       /**Error tirar excepcion */
+       throw OSError("Error inesperado en funcion socket::send, "
+                     "n_send: %d, length: %zd", n_send, length);
     }
 
     return n_send;
@@ -153,10 +164,9 @@ int Socket::recieve(void* buffer, ssize_t length) const {
         return 0;
     }
     if (n_recv == -1){
-        /**Error tirar excepcion */
+        throw OSError("Error inesperado en funcion Socket::recieve, "
+                      "n_recv: %d, length: %zd", n_recv, length);
     }
-
-
     return n_recv;
 }
 
@@ -167,9 +177,9 @@ Socket::~Socket() {
     }
 }
 
-int Socket::shutdown(int channel) {
+int Socket::shutdown(const int channel) {
     if (sfd >= 0){
-        ::shutdown(this->sfd, SHUT_RDWR);
+        ::shutdown(this->sfd, channel);
     }
     return  0;
 }

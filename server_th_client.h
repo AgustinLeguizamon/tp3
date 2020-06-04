@@ -32,13 +32,16 @@ public:
     //para poder usar el emplace_back/push_back
     ThClient(ThClient&& other) noexcept;
 
+    /*Recibe msg por el socket mientras siga el juego*/
     void run() override;
 
-    bool isRunning();
+    bool isRunning() const;
 
     ~ThClient() override;
 
 private:
+    /*Recibe por el socket un caracter, caso que sea 'n' recibe
+     * tambien un uint16 y delega a Game*/
     void recieve();
 };
 

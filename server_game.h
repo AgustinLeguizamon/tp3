@@ -19,21 +19,29 @@ private:
     bool is_client_winner;
 
 public:
+    /*Ctor, con el numero @param a adivinar*/
     explicit Game(uint16_t number);
 
     Game(Game &&other) noexcept;
 
+    /*Devuelve un string segun el tipo de comando @param c*/
     std::string process(const char &c);
 
+    /*Devuelve un string con la cantidad de numeros acertados o
+     * si el jugador gano o perdio*/
     std::string process(uint16_t guest);
 
-    bool isStillPlaying();
+    bool isStillPlaying() const;
 
-    bool isWinner();
+    bool isWinner() const;
 
 private:
+    /*Verifica que el numero sea valido, caso contrario devuelve
+     * un string con el msg de error*/
     std::string tryToGuest(uint16_t guest);
 
+    /*Verifica si los 3 numeros son correctos, caso contrario
+     * devuelve un string con la cantidad de aciertos*/
     std::string tryToGuestValidNumber(uint16_t guest);
 };
 

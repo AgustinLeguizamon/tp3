@@ -37,14 +37,13 @@ void ThClient::run() {
     counter.increase(game.isWinner());
 }
 
-bool ThClient::isRunning(){
+bool ThClient::isRunning() const{
     return is_running;
 }
 
 void ThClient::recieve() {
     char c_cmd;
     peer.recieve(&c_cmd, sizeof(char));
-    //Command *cmd = this->cmdFactory.get(c_cmd);
     std::string response;
     if (c_cmd == HELP_COMMAND || c_cmd == SURRENDER_COMMAND){
         response = game.process(c_cmd);
@@ -58,5 +57,4 @@ void ThClient::recieve() {
 ThClient::~ThClient() {
     is_running = false;
 }
-
 

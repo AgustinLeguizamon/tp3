@@ -2,13 +2,12 @@
 // Created by agustin on 22/5/20.
 //
 
-#include <iostream>
 #include "server_menssenger.h"
 #include <string>
 
 #define MAX_NUMBERS 3
 
-std::string Menssenger::sendResponse(unsigned int good,
+std::string Menssenger::writeResponse(unsigned int good,
         unsigned int regular, unsigned int bad) const {
     std::string response;
 
@@ -41,11 +40,11 @@ std::string Menssenger::sendResponse(unsigned int good,
     return response;
 }
 
-std::string Menssenger::sendWinResponse() const {
+std::string Menssenger::writeYouWinMsg() const {
     return "Ganaste";
 }
 
-std::string Menssenger::sendHelp() const {
+std::string Menssenger::writeHelpMsg() const {
     std::string help_message = "Comandos válidos:\n\t"
                                "AYUDA: despliega la lista de comandos "
                                "válidos\n\t"
@@ -57,11 +56,11 @@ std::string Menssenger::sendHelp() const {
     return help_message;
 }
 
-std::string Menssenger::sendYouLose() const {
+std::string Menssenger::writeYouLoseMsg() const {
     return "Perdiste";
 }
 
-std::string Menssenger::getInvalidNumberMsj() const {
+std::string Menssenger::writeInvalidNumberMsg() const {
     return "Número inválido. Debe ser de 3 cifras no repetidas";
 }
 

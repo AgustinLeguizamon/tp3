@@ -19,6 +19,7 @@ public:
 
     ProtectedCounter(const ProtectedCounter&) = delete;
 
+    /*Incrementa winners o losers dependiendo del @param is_winner*/
     void increase(bool is_winner);
 
     unsigned int getWinners();

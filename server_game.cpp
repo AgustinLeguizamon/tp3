@@ -4,6 +4,7 @@
 
 #include <string>
 #include "server_game.h"
+
 #define ATTEMPTS 10
 #define MAX_GUEST_NUMBER 999
 #define MIN_GUEST_NUMBER 100
@@ -29,29 +30,29 @@ Game::Game(Game &&other) noexcept :
 std::string Game::process(const char &c) {
     std::string response;
     if (c == HELP_COMMAND){
-        response = menssenger.sendHelp();
+        response = menssenger.writeHelpMsg();
     } else if (c == SURRENDER_COMMAND) {
         client_attempts_left = 0;
         still_playing = false;
-        response = menssenger.sendYouLose();
+        response = menssenger.writeYouLoseMsg();
     }
     return response;
 }
 
-std::string Game::process(uint16_t guest) {
+std::string Game::process(const uint16_t guest) {
     std::string response = tryToGuest(guest);
     if (client_attempts_left <= 0){
         still_playing = false;
-        response = menssenger.sendYouLose();
+        response = menssenger.writeYouLoseMsg();
     }
     return response;
 }
 
-std::string Game::tryToGuest(uint16_t guest) {
+std::string Game::tryToGuest(const uint16_t guest) {
     std::string response;
 
     if (guest > MAX_GUEST_NUMBER || guest < MIN_GUEST_NUMBER){
-        response = menssenger.getInvalidNumberMsj();
+        response = menssenger.writeInvalidNumberMsg();
         this->client_attempts_left--;
     } else {
         response = this->tryToGuestValidNumber(guest);
@@ -60,7 +61,7 @@ std::string Game::tryToGuest(uint16_t guest) {
     return response;
 }
 
-std::string Game::tryToGuestValidNumber(uint16_t guest) {
+std::string Game::tryToGuestValidNumber(const uint16_t guest){
     std::string s_guest = std::to_string(guest);
     std::string s_number_to_guest = std::to_string(number_to_guest);
 
@@ -85,27 +86,25 @@ std::string Game::tryToGuestValidNumber(uint16_t guest) {
         }
         i++;
     }
-
     std::string response;
     if (repeated_number){
-        response = menssenger.getInvalidNumberMsj();
+        response = menssenger.writeInvalidNumberMsg();
         client_attempts_left--;
     } else if (good == CORRECT_GUEST){
         still_playing = false;
         is_client_winner = true;
-        response = menssenger.sendWinResponse();
+        response = menssenger.writeYouWinMsg();
     } else {
         client_attempts_left--;
-        response = this->menssenger.sendResponse(good, regular, bad);
+        response = this->menssenger.writeResponse(good, regular, bad);
     }
-
     return response;
 }
 
-bool Game::isStillPlaying(){
+bool Game::isStillPlaying() const{
     return still_playing;
 }
 
-bool Game::isWinner(){
+bool Game::isWinner() const{
     return is_client_winner;
 }

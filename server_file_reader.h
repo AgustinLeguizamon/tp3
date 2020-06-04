@@ -8,21 +8,15 @@
 #include <fstream>
 #include <string>
 
-class FileNotFoundError : public std::exception {
-public:
-    const char* what() const noexcept override {
-        return "File name is incorrect";
-    }
-};
-
-
 class FileReader {
 private:
     std::ifstream fs;
 
 public:
+    /*Abre el archivo de nombre @param file_name*/
     explicit FileReader(const std::string &file_name);
 
+    /*Lee una linea completa del archivo, y lo convierte a uint16*/
     uint16_t readNextNumber();
 };
 

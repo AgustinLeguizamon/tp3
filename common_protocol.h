@@ -10,15 +10,24 @@
 
 class Protocol {
 public:
+    /*Envia el comando @param c por el socket
+     * client side*/
     int send(Socket &socket, char c);
 
+    /*Envia el @param number por el socket en formato bigEndian
+     * client side*/
     int send(Socket &socket, uint16_t number);
 
+    /*Recibe un uint32 por el socket con el largo del string,
+     * lo pasa al endianess local y luego recibe por el socket un string*/
     std::string recieve(Socket &socket);
 
-    //server side
-    int send(Socket &socket, const std::string &msg);
+    /* Envia por el socket un uint32 con el largo del mensaje en formato
+     * bigEndian y luego el msg @param.
+     * server side*/
+    int send(Socket &socket, const std::string &msg) const;
 
+    /* Recibe un uint16 por el socket y lo pasa al endianess local*/
     uint16_t recieve(Socket &socket, int overload);
 
 private:

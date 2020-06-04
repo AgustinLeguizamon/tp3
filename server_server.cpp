@@ -6,6 +6,7 @@
 #include <utility>
 #include "server_server.h"
 #include "server_th_client.h"
+#include "common_closedsocket_exception.h"
 
 #define CLOSE_SERVER 'q'
 

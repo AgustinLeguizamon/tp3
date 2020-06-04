@@ -14,19 +14,25 @@ private:
     int functor; //delete
 public:
     Menssenger();
-    
-    std::string sendResponse(unsigned int good, unsigned int regular,
-            unsigned int bad) const;
-
-    std::string sendWinResponse() const;
-
-    std::string sendHelp() const;
-
-    std::string sendYouLose() const;
-
-    std::string getInvalidNumberMsj() const;
 
     Menssenger (const Menssenger& other) = delete;
+
+    /*Devuelve un string con la cantidad de aciertos dados por 
+     * @param good, regular, bad*/
+    std::string writeResponse(unsigned int good, unsigned int regular,
+                              unsigned int bad) const;
+
+    /*Devuelve un string con mensaje de victoria*/
+    std::string writeYouWinMsg() const;
+
+    /*Devuelve un string con informacion sobre como funciona el juego*/
+    std::string writeHelpMsg() const;
+
+    /*Devuelve un string con msg de derrota*/
+    std::string writeYouLoseMsg() const;
+
+    /*Devuelve un string de error*/
+    std::string writeInvalidNumberMsg() const;
 };
 
 

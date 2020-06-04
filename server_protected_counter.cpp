@@ -10,7 +10,7 @@ ProtectedCounter::ProtectedCounter() :
     losers(0)
     {}
 
-void ProtectedCounter::increase(bool is_winner) {
+void ProtectedCounter::increase(const bool is_winner) {
     std::unique_lock<std::mutex> lock(mutex);
     if (is_winner){
         winners++;
