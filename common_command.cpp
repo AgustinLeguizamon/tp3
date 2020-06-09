@@ -3,6 +3,7 @@
 //
 
 #include "common_command.h"
+#include "common_protocol.h"
 #define SURRENDER_COMMAND 's'
 #define HELP_COMMAND 'h'
 #define NUMBER_COMMAND 'n'

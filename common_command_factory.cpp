@@ -4,6 +4,7 @@
 
 #include <climits>
 #include <string>
+#include <iostream>
 #include "common_command_factory.h"
 #include "common_command.h"
 

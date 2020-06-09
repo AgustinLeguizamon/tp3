@@ -5,15 +5,12 @@
 #ifndef TP3CLION_SERVER_MENSSENGER_H
 #define TP3CLION_SERVER_MENSSENGER_H
 
-
 #include <stdint-gcc.h>
 #include <string>
 
 class Menssenger {
-private:
-    int functor; //delete
 public:
-    Menssenger();
+    Menssenger() = default;
 
     Menssenger (const Menssenger& other) = delete;
 

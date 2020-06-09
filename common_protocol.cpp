@@ -4,6 +4,7 @@
 
 #include <string>
 #include "common_protocol.h"
+#include "common_socket.h"
 
 int Protocol::send(Socket &socket, const char c){
     socket.send(&c, sizeof(char));

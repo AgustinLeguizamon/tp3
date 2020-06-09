@@ -6,8 +6,8 @@
 #define TP3CLION_COMMON_PROTOCOL_H
 
 #include <string>
-#include "common_socket.h"
 
+class Socket;
 class Protocol {
 public:
     /*Envia el comando @param c por el socket
@@ -31,10 +31,12 @@ public:
     uint16_t recieve(Socket &socket, int overload);
 
 private:
-    /*client side*/
+    /*client side
+     * Devuelve una copia de @param value en formato BigEndian*/
     uint16_t valueToBigEndian(uint16_t value) const;
 
     /*client side*/
+    /*Devuelve una copia de @param value en endianess local*/
     uint32_t valueToLocalEndian(uint32_t value) const;
 
     /*server side*/

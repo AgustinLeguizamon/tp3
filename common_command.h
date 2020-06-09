@@ -5,8 +5,10 @@
 #ifndef TP3CLION_COMMON_COMMAND_H
 #define TP3CLION_COMMON_COMMAND_H
 
-#include "common_protocol.h"
+#include <cstdint>
 
+class Socket;
+class Protocol;
 class Command {
 public:
     virtual void operator()(Protocol &protocol,Socket &socket) = 0;

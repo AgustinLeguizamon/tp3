@@ -63,5 +63,3 @@ std::string Menssenger::writeYouLoseMsg() const {
 std::string Menssenger::writeInvalidNumberMsg() const {
     return "Número inválido. Debe ser de 3 cifras no repetidas";
 }
-
-Menssenger::Menssenger() : functor(0){}

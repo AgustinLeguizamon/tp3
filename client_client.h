@@ -8,10 +8,9 @@
 
 #include <cstdint>
 #include <string>
-#include "server_server.h"
 #include "common_socket.h"
-#include "common_protocol.h"
 #include "common_command_factory.h"
+#include "common_protocol.h"
 
 class Client {
 private:
@@ -30,7 +29,7 @@ public:
     void operator()();
 
 private:
-    /*Envia por el socket los comandos segun la entrada
+    /*Envia por el socket los comandos segun una entrada
      * estandar que sea valida*/
     int process(std::string &input);
 };

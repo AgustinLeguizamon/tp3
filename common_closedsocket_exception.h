@@ -10,9 +10,10 @@
 
 class ClosedSocketException : public std::exception {
 public:
-    const char* what() const noexcept override {
-        return "Socket is Closed";
-    }
+    /*Al cerrar el server el socket aceptador lanzara 
+     * una excepcion de este tipo, se utiliza como parte 
+     * de la logica del programa*/
+    const char* what() const noexcept override;
 };
 
 
